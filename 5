@@ -1,0 +1,11 @@
+x=0:0.01:2;
+u=3*log10(70*x+1);
+v=4*cos(7*x);
+
+plot(x,u,x,v)
+xlabel('Distance(mile)')
+ylabel('Speed(m/h)')
+
+grid on
+title('Speed vs Distance')
+legend('u', 'v')
