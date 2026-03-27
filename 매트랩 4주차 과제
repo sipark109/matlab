@@ -1,0 +1,127 @@
+function [root_val,min_x,min_val] = psi_25012699_func_1()
+%f(x)=0.3*x-sin(2*x)
+f=@(x)0.3*x-sin(2*x);
+%근 찾기:f(x)=0
+root_val=fzero(f,[0.5,2]);
+%최소값 찾기
+[min_x,min_val]=fminbnd(f,0,4);
+end
+
+function t = psi_25012699_func_2(h,v0,g)
+%주어진 높이h 초기속도v0 중력가소도 g를 입력받아
+% 해당 높이에 도달하는 t를 계산
+%h=v0*t-(0.5)*g*t^2
+%(0.5)*g*t^2-v0*t+h=0
+    coeffs=[0.5*g,-v0,h];
+    t=roots(coeffs);
+end
+
+function A = psi_25012699_func_3(r)
+    global V
+    h=(3*V)./(pi*r.^2);
+    A=pi*r.*sqrt(r.^2+h.^2);
+end
+
+
+
+%1번
+[root,x_min,f_min]=psi_25012699_func_1();
+%결과 출력
+fprintf('함수의 근: x = %.4f\n', root);
+fprintf('최소값 위치: x = %.4f\n', x_min);
+fprintf('최소값: f(x) = %.4f\n', f_min);
+%증명
+f=@(x)0.3*x-sin(2*x);
+fplot(f,[0,4]);
+hold on;
+plot(x_min, f_min, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+grid on;
+title('1번: f(x)=0.3x-sin(2x)의 그래프 및 최소값 확인');
+xlabel('x');ylabel('f(x)');
+legend('f(x)','최소값 지점');
+
+%2번
+h=100;
+v0=50;
+g=9.81;
+
+%함수호출
+t_solutions=psi_25012699_func_2(h,v0,g);
+% 결과 출력
+
+fprintf('t1: %.4f 초 \n', t_solutions(1));
+fprintf('t2: %.4f 초 \n', t_solutions(2));
+
+%3번
+%V = 10 in3에 대하여, fminbnd 함수를 사용하는 함수를 사용하여 면적 A를 최소화하는
+%r값을 계산하라. 상응하는 높이 h의 값은 얼마인가?
+global V;
+V=10;
+[r_opt,A_min]=fminbnd(@psi_25012699_func_3,0.1,5);
+h_opt=(3*V)/(pi*r_opt^2);
+
+fprintf('면적 A를 최소화하는 r: %f in\n ',r_opt);
+fprintf('상응하는 높이 h: %f in\n',h_opt);
+%r에 대한 A의 그래프를 그려서 해의 민감도를 조사하라
+
+r_axis=linspace(0.5,5,100);
+A_axis=arrayfun(@psi_25012699_func_3,r_axis);
+
+plot(r_axis,A_axis,'LineWidth',1.5);
+hold on;
+plot(r_opt,A_min,'ro','MarkerSize', 8, 'MarkerFaceColor', 'r');
+% 면적이 최소값에서 10% 증가한 지점 (1.1 * A_min) 표시
+A_threshold=1.1*A_min;
+yline(A_threshold,'--k','110% of A_{min}');
+
+f_sens=@(r)psi_25012699_func_3(r)-A_threshold;
+r_low=fzero(f_sens,r_opt*0.5);
+r_high=fzero(f_sens,r_opt*1.5);
+
+grid on
+title('3번: r에 따른 면적 A의 변화(민감도 조사)');
+xlabel('r(in)');
+ylabel('A(in^2)');
+legend('면적 A','최소값','10% 증가 한계선')
+
+fprintf('\n[민감도 조사 결과]\n');
+fprintf('면적이 10%% 증가하기 전까지 r은 %.4f in 에서 %.4f in 사이에서 움직일 수 있습니다.\n', r_low, r_high);
+fprintf('즉, 최적값에서 왼쪽으로 %.4f in, 오른쪽으로 %.4f in 만큼 벗어날 수 있습니다.\n', r_opt-r_low, r_high-r_opt);
+hold off;
+
+%4번
+f4=@(x)10*exp(-2*x);
+fplot(f4,[0, 2]);
+grid on
+title('4번: 0 ≤ x ≤ 2에서 f(x)= 10e^{−2x}')
+xlabel('x');
+ylabel('f(x)');
+
+%5번
+f5=@(x)30*x.^2-300*x+4;
+fprintf('(a):최소값의 대략적인 위치를 결정하기 위해서 함수의 그래프를 그려라');
+fplot(f5,[-10,10]);
+grid on
+title('5번: f(x) = 30x^2 - 300x + 4');
+xlabel('x');
+ylabel('f(x)');
+
+fprintf('(b) fminbnd 함수를 이용하여 최소값의 위치를 정확하게 결정하라.');
+
+[x_min_exact,f_min_val]=fminbnd(f5,-5,5);
+fprintf('정확한 최소값 위치: x = %f\n',x_min_exact);
+fprintf('그때의 함수값: f(x) = %f\n',f_min_val);
+
+
+
+%6번
+h6=@(z)6*exp(z);
+g6=@(y)3*cos(y);
+f6=@(x)x.^2;
+result6=@(x)h6(g6(f6(x)));
+fplot(result6,[0,4]);
+grid on 
+title('6번: h(g(f(x)))=6e^{3cos(x^2)}')
+xlabel('x');
+ylabel('h(g(f(x)))')
+
