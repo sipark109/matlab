@@ -1,0 +1,67 @@
+1. Live Function 종합 문제
+x=[-2 -1 0 1 2];
+1번
+y=squareVec(x)
+function y =squareVec(x)
+    y=x.^2;
+end
+2번
+y2=meanVec(x)
+function y=meanVec(x)
+ y = mean(x);
+end
+3번
+y3=mixedTransform(x)
+function y= mixedTransform(x)
+    y=x;
+    y(x<0)=abs(x(x<0));
+    y(x>0)=2*x(x>0)+1;
+end
+2. 사용자 제어 입출력 종합 문제
+
+1번
+name=input('이름 입력=','s');
+2번
+score=input('국어 영어 수학점수 입력=');
+3번
+avg=mean(score);
+fprintf('이름: %s\n',name);
+fprintf('과목 점수: \n%d\n%d\n%d\n',score(1),score(2),score(3));
+ fprintf('평균:%.2f\n',avg);
+4번
+if avg>=90
+    disp('Excellent');
+elseif avg>=80
+     disp('Good');
+elseif avg>=70
+     disp('Fair');
+else
+     disp('Needs Improvement');
+end
+3. 관계연산자, 논리연산자, find 함수 종합 문제
+
+다음 행렬은 지원자 정보이며, 각 행은 한 명의 지원자를 나타낸다.
+applicants=[165,72,1;172,85,0;168,91,1;181,77,1;174,69,0;169,88,1]
+각 열의 의미는 다음과 같다.
+ • 1열: 키(cm) 
+• 2열: 시험점수 
+• 3열: 면접통과 여부 (1 = 통과, 0 = 탈락)
+=====================================
+1번
+x=applicants(:,1)>=170;
+disp(x)
+
+2번
+y=applicants(:,2)>=80;
+disp(y)
+
+3번
+z=applicants(:,3)==1;
+disp(z)
+
+4번
+final= find (applicants(:,1)>=170 & applicants(:,2)>=80 & applicants(:,3)==1);
+disp(final)
+5번
+final_result=[final,applicants(final, :)];
+disp(final_result)
