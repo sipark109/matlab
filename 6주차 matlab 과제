@@ -1,0 +1,157 @@
+1번
+clear
+clc
+x=input('x= ');
+if x>0
+    y=x^2;
+else
+    y=0;
+end
+disp(y)
+
+
+2번
+clear
+clc
+m=input('m= ');
+switch m
+    case 1
+        disp('m = 1: January')
+    case 2
+        disp('m = 2: February')
+    case 3
+        disp('m = 3: March')
+    case 4
+        disp('m = 4: April')
+    otherwise
+        disp('invalid month')
+end
+
+3번
+clear
+clc
+s=0;
+x=[3 -5 0 8 -2 4 -7];
+for i=1:length(x)
+    if x(i)<0
+        s=s+1;
+    end
+end
+disp(s)
+
+4번
+clear
+clc
+x=[4 -9 0 16 -1 25];
+y=zeros(size(x));
+
+for i=1:length(x)
+    if x(i)>0
+        y(i)=sqrt(x(i));
+    elseif x(i)<0
+        y(i)=abs(x(i));
+    else
+        y(i)=x(i);
+    end
+end
+disp(y)
+
+5번
+clear
+clc
+a=input('a= ');
+b=input('b= ');
+cmd=input('cmd= ','s');
+switch cmd
+    case 'add'
+        result=a+b;
+        disp(result)
+    case 'sub'
+        result=a-b;
+        disp(result)
+    case 'mul'
+        result=a*b;
+        disp(result)
+    case 'div'
+        if b==0
+            disp('division by zero')
+        else
+            result=a/b;
+            disp(result)
+        end
+    otherwise
+        disp('invalid command')
+end
+
+
+6번
+clear
+clc
+N=input('N= ');
+s=0;
+for i=1:N
+    if rem(i,3)==0&&rem(i,2)~=0
+        s=s+i;
+    end
+end
+disp(s)
+
+7번
+clear
+clc
+N=input('N= ');
+a=zeros(1,N);
+for k=1:N
+    if rem(k,2)==0
+        a(k)=k.^3;
+    else
+        a(k)=k.^2;
+    end
+end
+
+disp(a)
+
+8번
+clear
+clc
+price= [19, 18, 22, 21, 25, 19, 17, 21, 27, 29];
+a=0;b=0;c=1000;
+for i=1:length(price)
+    if price(i)<20
+        c=c+100;
+        a=a+price(i)*100;
+    elseif price(i)>25
+        c=c-100;
+        b=b+price(i)*100;
+    end
+end
+initial_value=1000*price(1);
+final_value=(c*price(end))+(b-a);
+d=final_value-initial_value;
+fprintf('(a) 주식을 사는 데 소비한 금액: %.f\n',a)
+fprintf('(b) 주식을 팔아서 얻어진 금액: %.f\n',b)
+fprintf('(c) 10일째가 지난 후에 보유하고 있는 주식의 수: %.f\n',c)
+fprintf('(d) 포트폴리오에서 총 가치의 증가분: %.f\n',d)
+
+
+9번
+clear
+clc
+x=input('연결의 형태(직렬 또는 병렬)=  ','s')
+n=input('저항의 개수= ')
+R=zeros(1,n);
+for i= 1:n
+    R(i)=input('저항값= ');
+end
+total_R=0;
+if strcmp(x,'직렬')
+    for i=1:n
+        total_R=total_R+R(i);
+    end
+    fprintf('등가 저항 R= %f\n',total_R)
+elseif  strcmp(x,'병렬')
+    for i=1:n
+        total_R=total_R+1/R(i)
+    end
+    fprintf('등가 저항 R= %f\n',1/total_R)
+end
