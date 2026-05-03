@@ -1,0 +1,390 @@
+1
+clear;clc;
+
+x=0:0.05:6*pi;
+y=sin(x)+0.5*cos(3*x);
+plot(x,y);
+grid on; 
+xticks(0:pi:6*pi);
+xticklabels({'0','\pi','2\pi','3\pi','4\pi','5\pi','6\pi'});
+xlabel('x');
+ylabel('y');
+title('y = sin(x) + 0.5cos(3x)');
+
+
+2
+clear;clc;
+x=1:1:50;
+y=3.^x;
+
+subplot(1,2,1);
+plot(x,y);
+grid on;
+title('Plot');
+xlabel('x');
+ylabel('y = 3^x');
+
+subplot(1,2,2);
+semilogy(x,y);
+grid on;
+title('Semilogy');
+xlabel('x');
+ylabel('y = 3^x (log scale)');
+clf;
+
+fprintf(['plot에서는 3.^x가 매우 빠르게 증가해서, 초기 구간의 값 변화가 거의 보이지 않는다.\n' ...
+    'semilogy 그래프에서는 y축이 로그 스케일이기 때문에,지수 함수가 직선 형태로 나타난다.\n' ...
+    '따라서 semilogy를 사용하면  증가율을 더 직관적으로  확인할 수 있다.    '])
+plot에서는 3.^x가 매우 빠르게 증가해서, 초기 구간의 값 변화가 거의 보이지 않는다.
+semilogy 그래프에서는 y축이 로그 스케일이기 때문에,지수 함수가 직선 형태로 나타난다.
+따라서 semilogy를 사용하면  증가율을 더 직관적으로  확인할 수 있다.
+
+3
+clear;clc;
+data=load('score.dat');
+subplot(1,2,1);
+histogram(data,5);
+grid on;
+title('histogram 5');
+xlabel('Score');
+ylabel('Frequency');
+
+subplot(1,2,2);
+histogram(data, 10);
+grid on;
+title('Histogram 10');
+xlabel('Score');
+ylabel('Frequency');
+
+clf;
+
+4
+clear;clc;
+
+fx=@(x)sin(x).*exp(-0.1*x);
+fplot(fx,[0 10*pi]);
+title('f(x) = sin(x)e^{-0.1x}');
+xlabel('x');
+ylabel('f(x)');
+grid on
+
+5
+clear;clc;
+
+x=0:0.1:10;
+y1=x.^2;
+y2=exp(0.5*x);
+[X,Y1,Y2]=plotyy(x,y1,x,y2);
+title('Comparison of x^2 and e^{0.5x}')
+xlabel('x');
+ylabel(X(1), 'y1 = x^2');
+ylabel(X(2), 'y2 = e^{0.5x}');
+
+grid on;
+
+fprintf(['y1은 다항 함수 형태로 완만하게 증가하는 반면,\n' ...
+    'y2 는 지수 함수 형태로 x가 커질수록 y1보다 훨씬 급격하게 증가한다.'])
+
+y1은 다항 함수 형태로 완만하게 증가하는 반면, 
+y2 는 지수 함수 형태로 x가 커질수록 y1보다 훨씬 급격하게 증가한다.
+
+6
+clear;clc;
+
+t=0:0.02:12*pi;
+x=(1+0.03*t).*cos(t);
+y=(1+0.03*t).*sin(t);
+z=0.2*t;
+plot3(x,y,z)
+title('plot3(x,y,z)');
+xlabel('x(t)');
+ylabel('y(t)');
+zlabel('z(t)');
+grid on
+
+
+7
+clear;clc;
+
+[x,y]=meshgrid(-4:0.02:4,-4:0.02:4);
+z=x.^2-y.^2;
+mesh(x,y,z)
+title('z=x^2-y^2')
+xlabel('x');
+ylabel('y');
+zlabel('z');
+grid on
+
+fprintf(['x 방향으로는 z=x^2 형태 -> 위로 볼록 \n' ...
+    'y 방향으로는 z=−y^2 형태 -> 아래로 볼록 \n' ...
+    '한 방향은 증가, 다른 방향은 감소하는 구조를 가진다.\n' ...
+    '따라서 이 함수는 saddle surface 형태이다     '])
+x 방향으로는 z=x^2 형태 -> 위로 볼록 
+y 방향으로는 z=−y^2 형태 -> 아래로 볼록 
+한 방향은 증가, 다른 방향은 감소하는 구조를 가진다.
+따라서 이 함수는 saddle surface 형태이다
+
+8
+clear;clc;
+
+[x,y]=meshgrid(-2*pi:2*pi,-2*pi:2*pi);
+z=sin(x).*cos(y);
+
+subplot(1,2,1);
+mesh(x,y,z);
+title('mesh');
+xlabel('x');
+ylabel('y');
+zlabel('z');
+grid on
+
+
+subplot(1,2,2);
+contour(x,y,z)
+title('contour')
+xlabel('x');
+ylabel('y');
+grid on
+
+clf;
+
+disp('contour그래프는 함수값이 같은 지점들을 연결해서 2차원 평면으로 나타낸다')
+contour그래프는 함수값이 같은 지점들을 연결해서 2차원 평면으로 나타낸다
+
+9
+clear;clc;
+
+t=0:0.01:25;
+y=exp(-0.15*t).*cos(4*t);
+a)
+plot(t,y);
+title('y=e^{-0.15t}cos(4t)');
+xlabel('t');
+ylabel('y');
+grid on
+b)
+env=exp(-0.15*t);
+plot(t,env,'b');
+hold on;
+plot(t,-env,'k');
+hold off;
+grid on
+legend('envelope e^{-0.15t}','-envelope e^{-0.15t}')
+c)
+semilogy(t,abs(y));
+title('|y(t)|')
+xlabel('t');
+
+disp('|y(t)|를  semilogy로 나타내면, 감쇠가 직선 형태로 나타난다.')
+disp('이는  e^{-0.15t}가 로그 스케일에서 선형 함수로 변하기 때문이다.')
+disp('따라서 감쇠율을 더 명확하게 확인할 수 있다.')
+
+|y(t)|를  semilogy로 나타내면, 감쇠가 직선 형태로 나타난다.
+이는  e^{-0.15t}가 로그 스케일에서 선형 함수로 변하기 때문이다.
+따라서 감쇠율을 더 명확하게 확인할 수 있다.
+
+10
+clear;clc;
+
+[x,y]=meshgrid(-6:0.01:6,-6:0.01:6);
+z=cos(x).*sin(y).*exp(-0.05*(x.^2+y.^2));
+a)
+mesh(x,y,z);
+title('mesh');
+xlabel('x');
+ylabel('y');
+zlabel('z');
+grid on
+b)
+contour(x,y,z);
+title('contour');
+xlabel('x');
+ylabel('y');
+
+grid on
+c)
+[max_val,linear_idx]=max(z(:));
+[row,col]=ind2sub(size(z),linear_idx);
+max_x=x(row,col);
+max_y=y(row,col);
+fprintf('Z의 최댓값= %f',max_val);
+fprintf('위치 x=%f,y=%f',max_x,max_y);
+
+11
+clear;clc;
+t=[0, 1, 2, 3, 4, 5, 6]
+c = [12, 8.9, 6.6, 4.9, 3.6, 2.7, 2.0];
+a)
+plot(t,c)
+title('ct그래프');
+xlabel('t');
+ylabel('C');
+grid on;
+b)
+semilogy(t,c);
+title('log 그래프')
+xlabel('t');
+ylabel('C');
+grid on;
+c)
+logc=log(c);
+p=polyfit(t,logc,1);
+k=-p(1);
+
+k
+
+12
+clear; clc;
+
+n=1:1:30;
+T1=n;
+T2=n.*log(n);
+T3=n.^2;
+T4=2.^n;
+a)
+plot(n,T1,n,T2,n,T3,n,T4)
+legend('T1','T2','T3','T4');
+title('normal scale');
+grid on
+b)
+T=[T1;T2;T3;T4];
+semilogy(n,T);
+legend('T1','T2','T3','T4');
+title('log scale');
+
+c)
+disp('일반 그래프에서는 2^n같은 지수 함수의 값이 너무 급격하게 커져서 다른 함수들의 차이가 거의 보이지 않는다. ')
+disp(' 반면에 로그 스케일에서는 각 함수의 성장 속도 차이를 명확하게 비교 할 수 있다.')
+disp('따라서 성장률 비교에는 로그 스케일 그래프가 더 적절하다.')
+일반 그래프에서는 2^n같은 지수 함수의 값이 너무 급격하게 커져서 다른 함수들의 차이가 거의 보이지 않는다. 반면에 로그 스케일에서는 각 함수의 성장 속도 차이를 명확하게 비교 할 수 있다.
+따라서 성장률 비교에는 로그 스케일 그래프가 더 적절하다.
+
+16
+clear;clc;
+
+t=0:24;
+T=15+10*sin((pi*t)/12);
+1)
+plot(t,T,'k')
+
+title('0<=t<=24 온도변화');
+xlabel('t');
+ylabel('Temp');
+grid on
+hold on
+2)
+[max_row,max_col]=max(T);
+[min_row,min_col]=min(T);
+plot(t(max_col),max_row,'ro',MarkerSize=10);
+plot(t(min_col),min_row,'bo',MarkerSize=10);
+legend('','max','min');
+hold off
+
+17
+clear;clc;
+t=0:0.01:20;
+v=5*exp(-0.2*t);
+1)
+plot(t,v)
+title('v(t)')
+xlabel('t');
+ylabel('v');
+grid on
+2)
+semilogy(t,v);
+title('log scale v(t)');
+xlabel('t');
+ylabel('v');
+grid on
+3)
+disp('일반 plot 그래프에서는 속도가 곡선 형태로 완만하게 감소하며 0에 수렴한다.')
+disp('반면 semilogy 그래프에서는 지수 함수적 감소가 선형적인 형태로 나타난다.')
+일반 plot 그래프에서는 속도가 곡선 형태로 완만하게 감소하며 0에 수렴한다.
+반면 semilogy 그래프에서는 지수 함수적 감소가 선형적인 형태로 나타난다.
+
+18
+clear;clc;
+
+A=[4 -1 2;
+    1 3 -1;
+    2 -2 5];
+b=[7;4;10];
+a)
+%A^2
+disp('A^2')
+A^2
+%A.^2
+disp('A.^2')
+A.^2
+fprintf('A^2는 행렬곱 이고 A.^2는 각 원소의 제곱이다');
+
+A^2는 행렬곱 이고 A.^2는 각 원소의 제곱이다
+b)
+determinant_A=det(A)
+fprintf(' det(A)!=0이므로 역행렬이 존재한다.')
+ det(A)!=0이므로 역행렬이 존재한다.
+c)
+c1=inv(A)*b
+c2=A\b
+
+fprintf('계산 결과: inv(A)*b와 A\b 의 값은 같다.')
+
+계산 결과: inv(A)*b와 A\b 의 값은 같다.
+d)
+x=inv(A)*b
+
+19
+clear;clc;
+
+A=[2 -1;
+    3 4];
+B=[1 0 -2;
+    3 5 1];
+C=[6 -3 4;
+    15 14 -1];
+a)
+rhs=C-B;
+b)
+X=A\rhs
+c)
+C
+C1=A*X+B
+fprintf('c==c1이므로 계산한 X가 AX + B = C를 만족한다')
+c==c1이므로 계산한 X가 AX + B = C를 만족한다
+d)
+inv=inv(A)*(C-B)
+slash= A\(C-B)
+fprintf(['inv(A)*(C-B) 대신 A\\(C-B)를 사용하는 이유는,\n' ...
+    '역행렬을 직접 구하는 방식은 계산량이 많고 수치적으로 오차가 발생할 수 있기 때문이다.\n' ...
+    '반면 A\\(C-B)는 MATLAB에서 선형 시스템을 효율적이고 안정적으로 푸는 방법으로,더 빠르고 정확한 결과를 제공한다.'])
+inv(A)*(C-B) 대신 A\(C-B)를 사용하는 이유는,
+역행렬을 직접 구하는 방식은 계산량이 많고 수치적으로 오차가 발생할 수 있기 때문이다.
+반면 A\(C-B)는 MATLAB에서 선형 시스템을 효율적이고 안정적으로 푸는 방법으로,
+더 빠르고 정확한 결과를 제공한다.
+
+20
+clear;clc;
+
+X=[3 7 2 5;
+    5 9 4 6;
+    8 12 7 10;
+    10 15 9 13;
+    14 18 12 16]
+a)
+mean_col=mean(X)
+b)
+Xc=X-mean(X)
+c)
+S=Xc'*Xc
+d)
+fprintf(['행렬 S = Xc''Xc에서 대각원소는 각 변수의 분산을 나타낸다.\n' ...
+    '즉, 각 변수 데이터가 평균을 기준으로 얼마나 퍼져 있는지를 의미한다.\n' ...
+    '비대각원소는 서로 다른 변수 간의 공분산을 나타낸다.\n' ...
+    '이는 두 변수가 함께 어떻게 변하는지를 나타내며,\n' ...
+    '양수이면 같은 방향으로, 음수이면 반대 방향으로 변하는 경향을 의미한다.            '])
+
+행렬 S = Xc'Xc에서 대각원소는 각 변수의 분산을 나타낸다.
+즉, 각 변수 데이터가 평균을 기준으로 얼마나 퍼져 있는지를 의미한다.
+비대각원소는 서로 다른 변수 간의 공분산을 나타낸다.
+이는 두 변수가 함께 어떻게 변하는지를 나타내며,
+양수이면 같은 방향으로, 음수이면 반대 방향으로 변하는 경향을 의미한다.
