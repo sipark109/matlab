@@ -1,0 +1,317 @@
+1번
+%1번
+clear;clc;
+%a
+t=0:0.01:30;
+f=exp(-0.12*t).*sin(5*t)+0.3*cos(2*t);
+plot(t,f);
+hold on;
+%b
+u=exp(-0.12*t)+0.3;
+l=-u;
+plot(t,u,t,l)
+grid on;
+legend('f(t)','u(t)','l(t)')
+title('f(t),u(t),(t)');
+xlabel('t')
+
+%c
+idx=find(f(2:end-1)>f(1:end-2)&f(2:end-1)>f(3:end))+1
+%d
+plot(t(idx), f(idx), 'ko');
+legend('f(t)','u(t)','l(t)','local max val')
+hold off
+%e
+result=table(t(idx),f(idx));
+disp(result)
+
+
+2번
+clear;clc;
+
+[x,y]=meshgrid(-5:0.05:5,-5:0.05:5);
+z=sin(x.*y)./(1+x.^2+y.^2);
+%a
+z
+%b
+mesh(x,y,z)
+title('mesh');
+xlabel('x');
+ylabel('y');
+zlabel('z');
+grid on;
+%c
+contour(x,y,z,25)
+title('contour');
+xlabel('x');
+ylabel('y');
+zlabel('z');
+grid on;
+%d
+abs_z=abs(z);
+max_z=max(abs_z(:))
+%e
+[row, col] = find(abs_z == max_z);
+x_max = x(abs_z == max_z);
+y_max = y(abs_z == max_z);
+fprintf('(%.2f,%.2f)\n',x_max,y_max)
+
+3번
+clear;clc;
+
+A=[7 2 1;
+    2 6 -2;
+    1 -2 5];
+%a
+disp('a')
+[V,D]=eig(A)
+%b
+disp('b')
+diag_D=diag(D)
+%c
+disp('c')
+[max_diag,idx]=max(diag_D)
+%d
+disp('d')
+v=V(:,idx)
+%e
+disp('e')
+n=v/norm(v)
+%f
+disp('f')
+A*v-max_diag*v
+
+4번
+clear;clc;
+
+X=[2 5 1;
+    4 8 3;
+    6 11 7;
+    9 15 10;
+    13 20 14];
+%a
+disp('a')
+mean(X)
+%b
+disp('b')
+Xc=X-mean(X)
+%c
+disp('c')
+S=Xc'*Xc
+%d
+disp('d')
+eig(S)
+%e
+disp('e')
+[max_eig,idx]=max(eig(S))
+%f
+disp('f')
+[V,D]=eig(S)
+max_eig_v=V(:,idx)
+
+5번
+clear;clc;
+%a
+A=[5 2 -1;
+    -2 6 3;
+    1 -1 7]
+ b=[8;5;12]
+%b
+x1=inv(A)*b
+%c
+x2=A\b
+%d
+result=x1-x2
+%e
+det(A)
+if det(A)~=0
+    fprintf('The determinant of A is non-zero, indicating A is invertible.\n');
+end
+
+6번
+clear;clc;
+
+%a
+x=-6:0.05:6;y=-6:0.05:6;
+[X,Y]=meshgrid(x,y);
+Z=exp(-0.08*(X.^2+Y.^2)).*cos(3*X).*sin(2*Y)
+%b
+surf(X,Y,Z);
+title('surf')
+xlabel('x'),ylabel('y'),zlabel('z');
+grid on
+%c
+contour(X,Y,Z,30);
+title('contour');
+xlabel('x'),ylabel('y'),zlabel('z');
+grid on
+%d
+[max_val, max_idx] = max(Z(:)); 
+[min_val, min_idx] = min(Z(:));
+maxZ=max_val
+minZ=min_val
+%e
+[row, col] = ind2sub(size(Z), max_idx);
+[row1, col1] = ind2sub(size(Z), min_idx);
+fprintf('Max (%.2f, %.2f)\nMin (%.2f, %.2f)\n', ...
+    X(row, col), Y(row, col), X(row1, col1), Y(row1, col1));
+
+
+7번
+clear;clc;
+
+n=[50 100 200 400 800 1600];
+T=[14 19 30 51 92 170];
+%a
+subplot(1,3,1)
+plot(n,T,'o-')
+title('일반 그래프'),xlabel('x'),ylabel('y'),grid on
+%b
+subplot(1,3,2)
+semilogx(n,T,'o-')
+title('x축 로그 그래프')
+xlabel('x'),ylabel('y'),grid on
+%c
+subplot(1,3,3)
+semilogy(n,T,'o-')
+title('y축 로그 그래프')
+xlabel('x'),ylabel('y'),grid on
+%d
+clf;
+%e
+disp('plot(n,T)이 가장 직선에 가깝다.')
+
+
+8번
+clear;clc;
+
+t=0:0.01:24;
+P=50+18*sin((pi*t)/12)+6*cos((pi*t)/4);
+%a
+plot(t,P)
+title('하루 전력 사용량')
+hold on
+%b
+[x,y]=max(P);
+max_P=x
+
+%c
+max_t=t(y)
+%d
+[minval,minidx]=min(P);
+
+min_t=t(minidx);
+min_P=minval;
+fprintf('min=%f time=%f',min_P,min_t)
+%e
+
+plot(max_t,max_P,'ro');
+plot(min_t,min_P,'bs');
+legend('P(t)','max','min')
+hold off
+
+9번
+clear;clc;
+
+X=[1 3 0;
+    2 5 1;
+    4 8 3;
+    7 12 5;
+    11 17 9];
+%a
+x1=X(:,1)
+x2=X(:,2)
+x3=X(:,3)
+%b
+D1n2=acosd(dot(x1,x2)/(norm(x1)*norm(x2)))
+%c
+D1n3=acosd(dot(x1,x3)/(norm(x1)*norm(x3)))
+D2n3=acosd(dot(x2,x3)/(norm(x2)*norm(x3)))
+%d
+thetar=[D1n2,D1n3,D2n3]
+%e
+[val,idx]=min(thetar);
+min_degree=val
+disp('가장 방향이 비슷한 두 센서 번호')
+if idx==1
+    disp('1&2')
+elseif idx==2
+    disp('1&3')
+else
+    disp('2&3')
+end
+
+10번
+clear;clc;
+%a
+A=[9 -2 -1;
+    -2 8 -3;
+    -1 -3 10]
+b=[15;7;11]
+%b
+I=A\b
+%c
+det_A=det(A)
+if det(A)~=0
+    disp('A는 가역행렬')
+else
+    disp('A는 비가역행렬')
+end
+%d
+abs_I=abs(I)
+%e
+[max_i,max_idx]=max(abs_I)
+
+11번
+clear;clc;
+
+t=0:0.01:40;
+y=exp(-0.04*t).*(sin(4*t)+0.6*sin(9*t));
+%a
+plot(t,y);
+hold on
+%b
+u=1.6*exp(-0.04*t);
+l=-u;
+%c
+plot(t,u);
+plot(t,l);
+legend('y(t)','u(t)','l(t)')
+title(' 음향 시스템의 출력 신호')
+xlabel('t(sec)')
+grid on
+hold off
+%d
+semilogy(t,abs(y))
+title('|y(t)|')
+%e
+u_0=1.6*exp(-0.04*0);
+u_40=1.6*exp(-0.04*40);
+fprintf('t=0 일 때 u(t): %f\n', u_0);
+fprintf('t=40 일 때 u(t): %f\n', u_40);
+
+12번
+clear;clc;
+
+epoch=[1 2 5 10 20 50 100 200];
+loss=[3.1 2.4 1.7 1.2 0.83 0.36 0.14 0.06];
+%a
+plot(epoch,loss,'o-');
+title('Learning Loss (Linear)');
+xlabel('Epoch'); ylabel('Loss');
+grid on;
+%b
+semilogy(epoch,loss,'o-');
+title('Learning Loss (Log Scale)');
+xlabel('Epoch'); ylabel('Loss');
+grid on;
+%c
+r=loss(2:end)./loss(1:end-1)
+%d
+avg_r=mean(r)
+%e
+if mean(r)<1
+    disp('평균 비율이 1보다 작으므로 loss가 전반적으로 감소한다고 판단된다')
+else
+    disp(' loss가 전반적으로 감소한다고 보기 어렵다')
+end
